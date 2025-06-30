@@ -1,0 +1,50 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #121212;
+  color: #fff;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #00d1ff;
+}
+
+.executor-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.executor-card {
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #333;
+  box-shadow: 0 0 10px #00000055;
+}
+
+.executor-card h3 {
+  margin-top: 0;
+  color: #00d1ff;
+}
+
+.status {
+  font-weight: bold;
+}
+
+.status.detected {
+  color: red;
+}
+
+.status.undetected {
+  color: limegreen;
+}
+
+.links a {
+  display: inline-block;
+  margin-right: 10px;
+  color: #00aaff;
+}

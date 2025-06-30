@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Roblox Executors</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #121212;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #00d1ff;
+    }
+    .executor-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .executor-card {
+      background-color: #1e1e1e;
+      border-radius: 8px;
+      padding: 16px;
+      border: 1px solid #333;
+      box-shadow: 0 0 10px #00000055;
+    }
+    .executor-card h3 {
+      margin-top: 0;
+      color: #00d1ff;
+    }
+    .status {
+      font-weight: bold;
+    }
+    .status.detected {
+      color: red;
+    }
+    .status.undetected {
+      color: limegreen;
+    }
+    .links a {
+      display: inline-block;
+      margin-right: 10px;
+      color: #00aaff;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Roblox Executors</h1>
+  <div class="executor-container" id="executors"></div>
+
+  <script>
+    const container = document.getElementById('executors');
+
+    fetch('/.netlify/functions/executors') // Endpoint do funkcji serverless na Netlify
+    .then(res => res.json())
+    .then(data => {
+      data.forEach(exec => {
+        const card = document.createElement('div');
+        card.className = 'executor-card';
+
+        const detected = exec.detected ? 'Detected' : 'Undetected';
+        const statusClass = exec.detected ? 'detected' : 'undetected';
+
+        card.innerHTML = `
+          <h3>${exec.title}</h3>
+          <p><strong>Version:</strong> ${exec.version}</p>
+          <p class="status ${statusClass}">${detected}</p>
+          <p><strong>Platform:</strong> ${exec.platform}</p>
+          <div class="links">
+            ${exec.websitelink ? `<a href="${exec.websitelink}" target="_blank">Website</a>` : ''}
+            ${exec.discordlink ? `<a href="${exec.discordlink}" target="_blank">Discord</a>` : ''}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    })
+    .catch(err => {
+      container.innerHTML = '<p>Failed to load executors. Make sure you are using a compatible User-Agent or CORS is allowed.</p>';
+      console.error(err);
+    });
+  </script>
+
+</body>
+</html>
